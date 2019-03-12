@@ -1,13 +1,16 @@
 <template>
   <div>
-
-
+    
      <form name="myForm" @submit.prevent="addAnimal()">
-        Species:<input type="name" name="sp"><br>
+     Species: <select name="sp" v-model="sector">
+                  <option v-for="sector in sectors" :key="sector" :value="sector">{{sector}}</option><br>
+              </select><br>
+   
         Name:<input type="name" name="nm"><br>
         Date:<input type="name" name="dt"><br>
         <button type="submit">Add</button>
       </form>
+
     <table>
       <tr v-for="(animal,index) in animals" :key="animal">
       <th>{{animal.species}}</th>
@@ -32,9 +35,14 @@ export default {
         {species:"elephant",name:"Bobi",date:('01.25.2015.')},
         {species:"fish",name:"Fish2",date:('10.01.2018.')},
         {species:"bird",name:"Bird1"}
+      ],
+      sectors:[
+    "cat", "dog", "elephant", "fish", "bird"
       ]
     }
   },
+  
+
   methods:{
     removeAnimal(index){
       this.animals.splice(index,1);
