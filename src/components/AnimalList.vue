@@ -2,7 +2,7 @@
   <div>
     
      <form name="myForm" @submit.prevent="addAnimal()">
-     Species: <select name="sp" v-model="sector">
+     Species: <select name="sp">
                   <option v-for="sector in sectors" :key="sector" :value="sector">{{sector}}</option><br>
               </select><br>
    
@@ -12,7 +12,7 @@
       </form>
 
     <table>
-      <tr v-for="(animal,index) in animals" :key="animal">
+      <tr v-for="(animal,index) in animals" :key="index">
       <th>{{animal.species}}</th>
       <th>{{animal.name}}</th>
       <th>{{animal.date ? animal.date : "nepoznat"}}</th>
@@ -20,7 +20,17 @@
       <button @click="moveToTop(index)">Move to top </button>
       
       </tr> 
+  </table> <br>
+
+  <table>
+    <tr v-for="(sector,index) in sectors" :key="sector">
+      <th>{{sector}}</th>
+      <button @click="showAll(sector)">ShowAll</button>
+    </tr>
   </table>
+  
+
+ 
 
   </div>
 </template>
@@ -56,9 +66,21 @@ export default {
       this.animals.push({species:document.forms["myForm"]["sp"].value,
                          name:document.forms["myForm"]["nm"].value,
                          date:document.forms["myForm"]["dt"].value});
-    }
+    },
+    showAll(sector){
+          let an = [];      
+        for(let i = 0; i<this.animals.length;i++){
+           if(this.animals[i].species==sector){
+             an.push(this.animals[i]);
+          }                  
+        }
+       alert(JSON.stringify(an));
+                  
+
+        
   }
 
+}
 }
 </script>
 
