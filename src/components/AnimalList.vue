@@ -1,14 +1,14 @@
 <template>
   <div>
     
-     <form name="myForm" @submit.prevent="addAnimal()">
-     Species: <select name="sp">
-                  <option v-for="sector in sectors" :key="sector" :value="sector">{{sector}}</option><br>
-              </select><br>
-   
-        Name:<input type="name" name="nm"><br>
-        Date:<input type="name" name="dt"><br>
-        <button type="submit">Add</button>
+     <form @submit.prevent="addAnimal()">
+      Species: <select v-model="animal.species">
+                    <option v-for="sector in sectors" :key="sector" :value="sector">{{sector}}</option><br>
+                </select><br>
+    
+        Name:<input type="text" name v-model="animal.name">
+        Date:<input type="text" date v-model="animal.date">
+          <button type="submit">Add</button>
       </form>
 
     <table>
@@ -44,11 +44,13 @@ export default {
         {species:"dog",name:"Lesi",date:('11.01.2015.')},
         {species:"elephant",name:"Bobi",date:('01.25.2015.')},
         {species:"fish",name:"Fish2",date:('10.01.2018.')},
-        {species:"bird",name:"Bird1"}
+        {species:"bird",name:"Bird1"},
+       
       ],
       sectors:[
     "cat", "dog", "elephant", "fish", "bird"
-      ]
+      ],
+      animal:{species:"",name:"",date:""}
     }
   },
   
@@ -63,9 +65,7 @@ export default {
       this.animals.unshift(animal);
     },
     addAnimal(){
-      this.animals.push({species:document.forms["myForm"]["sp"].value,
-                         name:document.forms["myForm"]["nm"].value,
-                         date:document.forms["myForm"]["dt"].value});
+      this.animals.push({...this.animal});
     },
     showAll(sector){
           let an = [];      
