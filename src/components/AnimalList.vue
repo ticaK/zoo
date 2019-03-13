@@ -7,24 +7,24 @@
     <form @submit.prevent="addAnimal()">
 
         <div class="form-group">
-          <label for="sector">Sector: </label>
+          <label>Sector:</label>
             <select class="form-control" v-model="animal.sector">
                 <option v-for="sector in sectors" :key="sector" :value="sector">{{sector}}</option><br>
             </select><br>
         </div>
 
         <div class="form-group"> 
-          <label for="species" >Species: </label>
+          <label>Species:</label>
           <input type="text" class="form-control" v-model="animal.species">
         </div>
 
         <div class="form-group"> 
-          <label for="name" >Name: </label>
+          <label>Name:</label>
           <input type="text" class="form-control" v-model="animal.name">
         </div>
 
         <div class="form-group">
-          <label for="date">Date of birth: </label>
+          <label>Date of birth:</label>
           <input type="date" class="form-control"  v-model="animal.date"><br>
         </div>
 
@@ -61,7 +61,7 @@
     <table>
       <caption>Animals by sectors</caption>
 
-      <tr v-for="(sector) in sectors" :key="sector">
+      <tr v-for="sector in sectors" :key="sector">
         <td>{{sector}}</td>
         <td><button class="btn btn-block" @click="showAll(sector)">Show all</button></td>
       </tr>
