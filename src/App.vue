@@ -1,8 +1,8 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <AnimalList msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="container">
+      <AnimalList/>
   </div>
+
 </template>
 
 <script>

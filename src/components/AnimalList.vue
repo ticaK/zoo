@@ -1,91 +1,158 @@
 <template>
+
   <div>
     
-     <form @submit.prevent="addAnimal()">
-      Species: <select v-model="animal.species">
-                    <option v-for="sector in sectors" :key="sector" :value="sector">{{sector}}</option><br>
-                </select><br>
-    
-        Name:<input type="text" name v-model="animal.name">
-        Date:<input type="text" date v-model="animal.date">
-          <button type="submit">Add</button>
-      </form>
+    <h1>Welcome To My Zoo</h1>
+
+    <form @submit.prevent="addAnimal()">
+
+        <div class="form-group">
+          <label for="sector">Sector: </label>
+            <select class="form-control" v-model="animal.sector">
+                <option v-for="sector in sectors" :key="sector" :value="sector">{{sector}}</option><br>
+            </select><br>
+        </div>
+
+        <div class="form-group"> 
+          <label for="species" >Species: </label>
+          <input type="text" class="form-control" v-model="animal.species">
+        </div>
+
+        <div class="form-group"> 
+          <label for="name" >Name: </label>
+          <input type="text" class="form-control" v-model="animal.name">
+        </div>
+
+        <div class="form-group">
+          <label for="date">Date of birth: </label>
+          <input type="date" class="form-control"  v-model="animal.date"><br>
+        </div>
+
+        <button class="btn btn-primaty btn-block" type="submit">Add animal</button>
+        
+    </form>
 
     <table>
+
+      <caption>All animals</caption>
+
+      <tr>
+        <th>Sector</th>
+        <th>Species</th>
+        <th>Name</th>
+        <th>Date of birth</th>
+        <th>Remove</th>
+        <th>Move to top</th>
+      </tr>
+
       <tr v-for="(animal,index) in animals" :key="index">
-      <th>{{animal.species}}</th>
-      <th>{{animal.name}}</th>
-      <th>{{animal.date ? animal.date : "nepoznat"}}</th>
-      <button @click="removeAnimal(index)">Remove</button>
-      <button @click="moveToTop(index)">Move to top </button>
-      
+        <td>{{animal.sector}}</td>
+        <td>{{animal.species}}</td>
+        <td>{{animal.name}}</td>
+        <td>{{animal.date ? moment(animal.date) : "Unknown"}}</td> 
+
+        <td><button class="btn-warning btn-block" @click="removeAnimal(index)">Remove</button></td>
+        <td><button class="btn-success btn-block" @click="moveToTop(index)">Move to top </button></td>
       </tr> 
-  </table> <br>
 
-  <table>
-    <tr v-for="(sector,index) in sectors" :key="sector">
-      <th>{{sector}}</th>
-      <button @click="showAll(sector)">ShowAll</button>
-    </tr>
-  </table>
+    </table> 
+
+
+    <table>
+      <caption>Animals by sectors</caption>
+
+      <tr v-for="(sector) in sectors" :key="sector">
+        <td>{{sector}}</td>
+        <td><button class="btn btn-block" @click="showAll(sector)">Show all</button></td>
+      </tr>
+
+    </table>
   
-
- 
-
   </div>
+
 </template>
 
 <script>
+import moment from 'moment'
 export default {
-  data(){
+  data() {
     return {
+
       animals:[
-        {species:"cat",name:"Garfild",date:('01.01.2015.')},
-        {species:"dog",name:"Lesi",date:('11.01.2015.')},
-        {species:"elephant",name:"Bobi",date:('01.25.2015.')},
-        {species:"fish",name:"Fish2",date:('10.01.2018.')},
-        {species:"bird",name:"Bird1"},
-       
+        {sector:"birds", species:"Penguin", name:"Pecky", date: moment('2017-12-04')},
+        {sector:"fish", species:"Dolphin", name:"Sandy", date: moment('2015-11-03')},
+        {sector:"insects", species:"Butterfly", name:"Brimstone", date: moment('2019-02-11')},
+        {sector:"spiders", species:"Black Widow", name:"Killer", date: moment('2019-01-04')},
+        {sector:"mammals", species:"Chinchilla", name:"Avalon"},   
       ],
-      sectors:[
-    "cat", "dog", "elephant", "fish", "bird"
+
+      sectors: [
+          "birds", "fish", "insects", "spiders","mammals"
       ],
-      animal:{species:"",name:"",date:""}
-    }
-  },
+
+      animal: {sector: "", species: "", name:"", date: ""}
+
+  }
+},
   
 
-  methods:{
-    removeAnimal(index){
+  methods: {
+
+    moment(date) {
+      return moment(date).format('LL');
+    },
+
+    removeAnimal(index) {
       this.animals.splice(index,1);
     },
-    moveToTop(index){
+    
+    moveToTop(index) {
       const animal = this.animals[index];
       this.animals.splice(index,1);
       this.animals.unshift(animal);
     },
-    addAnimal(){
+
+    addAnimal() {
       this.animals.push({...this.animal});
     },
-    showAll(sector){
-          let an = [];      
-        for(let i = 0; i<this.animals.length;i++){
-           if(this.animals[i].species==sector){
-             an.push(this.animals[i]);
-          }                  
-        }
-       alert(JSON.stringify(an));
-                  
 
-        
+    showAll(sector) {
+        let sectorAnimals = "All animals from this sector: \n "; 
+        let animals = this.animals.filter(animal=>animal.sector==sector);
+        animals.forEach(function(animal){
+            let dateStr = moment(animal.date).format('LL').toString();
+            sectorAnimals += animal.species+", "+ animal.name + ", "+ dateStr +"\n"
+        });
+        alert(sectorAnimals);
+    }
+  
   }
-
-}
 }
 </script>
 
 <style>
+
 table, th, td {
+  text-align: center;
   border: 1px solid black;
+  font-weight: bold;
 }
+
+table, form {
+  margin:50px 0;
+}
+
+table {
+  width: 100%;
+}
+
+th {
+  background-color: #cec7c7;
+}
+
+
+
+
+
+
 </style>
